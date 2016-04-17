@@ -1,0 +1,29 @@
+{
+  "name": "hexo-index-anything",
+  "version": "0.0.0",
+  "description": "Generate custom indexes",
+  "main": "index.js",
+  "scripts": {
+    "test": ""
+  },
+  "repository": {
+    "type": "git",
+    "url": "git@github.com:leviwheatcroft/hexo-index-anything.git"
+  },
+  "keywords": [
+    "hexo",
+    "generator",
+    "recent"
+  ],
+  "author": "Levi Wheatcroft <levi@wht.cr>",
+  "license": "MIT",
+  "bugs": {
+    "url": "https://github.com/leviwheatcroft/hexo-index-anything/issues"
+  },
+  "homepage": "https://github.com/leviwheatcroft/hexo-index-anything",
+  "dependencies": {
+    "moment": "^2.12.0",
+    "string": "^3.3.1",
+    "underscore": "^1.8.3"
+  }
+}

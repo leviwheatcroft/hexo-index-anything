@@ -1,15 +1,12 @@
 # hexo-index-anything
 
 ![nodei.co](https://nodei.co/npm/hexo-index-anything.png?downloads=true&downloadRank=true&stars=true)
+
 ![npm](https://img.shields.io/npm/v/hexo-index-anything.svg)
 
 Hexo plugin to generate a indexes from custom front matter variables. Suppose
 you have an author variable in your front matter, this plugin will generate
 files like /authors/author-name.html, listing each post by that author.
-
-
-
-![stars](https://img.shields.io/github/stars/leviwheatcroft/hexo-index-anything.svg)
 
 ## Install
 
@@ -30,7 +27,7 @@ Install, configure, then `hexo generate` as usual.
 
 ## Api
 
-hexo-index-anything api
+See the [fancy annotated code](http://leviwheatcroft.github.io/hexo-index-anything/docs/index.js.html)
 
 ## Author
 

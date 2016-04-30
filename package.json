@@ -22,7 +22,7 @@
   "bugs": {
     "url": "https://github.com/leviwheatcroft/hexo-index-anything/issues"
   },
-  "homepage": "https://github.com/leviwheatcroft/hexo-index-anything",
+  "homepage": "http://leviwheatcroft.github.io/hexo-index-anything/docs/index.js.html",
   "dependencies": {
     "lodash": "^4.11.1",
     "moment": "^2.12.0",

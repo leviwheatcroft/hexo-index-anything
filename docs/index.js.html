@@ -1,0 +1,461 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>index.js</title>
+  <meta http-equiv="content-type" content="text/html; charset=UTF-8">
+  <link rel="stylesheet" media="all" href="doc-style.css" />
+  <script src="doc-filelist.js"></script>
+  <script>
+    var relativeDir = "", thisFile = "index.js", defaultSidebar = true;
+  </script>
+  <script src="doc-script.js"></script>
+</head>
+<body>
+  <div id="sidebar_wrapper">
+    <div id="sidebar_switch">
+      <span class="tree">Files</span>
+      <span class="headings">Headings</span>
+    </div>
+    <div id="tree"></div>
+    <div id="headings">
+    </div>
+  </div>
+  <div id="sidebar-toggle"></div>
+  <div id="container"><div class="background highlight"></div>
+<table cellpadding="0" cellspacing="0">
+  <tbody>
+      <tr>
+        <td class="docs">
+          <h1>index.js</h1>
+        </td>
+        <td class="code highlight"></td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-1" id="section-1">&#182;</a>
+</div>
+
+        </td>
+        <td class="code highlight"><div class="highlight"><pre><span class="s1">&#39;use strict&#39;</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-2" id="section-2">&#182;</a>
+</div>
+<p>require all the things</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kr">const</span> <span class="nx">_</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;lodash&#39;</span><span class="p">)</span>
+<span class="kr">const</span> <span class="nx">moment</span>  <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;moment&#39;</span><span class="p">)</span>
+<span class="kr">const</span> <span class="nx">S</span>       <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;string&#39;</span><span class="p">)</span>
+<span class="kr">const</span> <span class="nx">path</span>    <span class="o">=</span> <span class="nx">require</span><span class="p">(</span><span class="s1">&#39;path&#39;</span><span class="p">)</span>
+
+
+<span class="kd">let</span> <span class="nx">Index</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-3" id="section-3">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>Index Constructor
+An index is a group of posts sorted according to the value of a single front
+matter variable. For example, if you add an <code>author</code> variable to all your
+posts, then an <code>author</code> index contains all posts with that variable, grouped
+according to the value of the <code>author</code> variable.</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">class</div>
+    <div class="dox_tag_detail">
+    </div>
+    <div class="dox_tag_title">classdesc</div>
+    <div class="dox_tag_detail">
+      <span>group of posts sorted according to a single front matter variable</span>
+    </div>
+    <div class="dox_tag_title">constructor</div>
+    <div class="dox_tag_detail">
+    </div>
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">index</span>
+      <span class="dox_type">String</span>
+    </div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">path
+</span>
+      <span class="dox_type">String</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Index</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">path</span><span class="p">)</span> <span class="p">{</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="nx">index</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">path</span> <span class="o">=</span> <span class="nx">path</span>
+  <span class="k">this</span><span class="p">.</span><span class="nx">posts</span> <span class="o">=</span> <span class="p">{}</span>
+<span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-4" id="section-4">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>push
+add a post to this index. Only posts with this index set will be added,
+others will be discarded</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">post</span>
+      <span class="dox_type">hexoPost</span>
+      <span><ul>
+<li>a post as created by hexo generator</li>
+</ul></span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Index</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">push</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">post</span><span class="p">)</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-5" id="section-5">&#182;</a>
+</div>
+<p>discard posts where the index is not set</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">if</span> <span class="p">(</span><span class="o">!</span><span class="nx">_</span><span class="p">.</span><span class="nx">has</span><span class="p">(</span><span class="nx">post</span><span class="p">,</span> <span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">))</span> <span class="p">{</span>
+    <span class="k">return</span>
+  <span class="p">}</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-6" id="section-6">&#182;</a>
+</div>
+<p>deal with indexes containing multiple values (like tags)</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="kd">let</span> <span class="nx">values</span> <span class="o">=</span> <span class="nx">_</span><span class="p">.</span><span class="nx">flatten</span><span class="p">([</span><span class="nx">post</span><span class="p">[</span><span class="k">this</span><span class="p">.</span><span class="nx">index</span><span class="p">]])</span>
+  <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">values</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">value</span><span class="p">)</span> <span class="p">{</span>
+    <span class="nx">value</span> <span class="o">=</span> <span class="nx">S</span><span class="p">(</span><span class="nx">value</span><span class="p">).</span><span class="nx">slugify</span><span class="p">().</span><span class="nx">s</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="nx">value</span><span class="p">]</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="nx">value</span><span class="p">]</span> <span class="o">||</span> <span class="p">[]</span>
+    <span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">[</span><span class="nx">value</span><span class="p">].</span><span class="nx">push</span><span class="p">(</span><span class="nx">post</span><span class="p">)</span>
+  <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-7" id="section-7">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>return a path with or without asset folder</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">key</span>
+      <span class="dox_type">String</span>
+      <span>the name of this index</span>
+    </div>
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span>String</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Index</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getPath</span> <span class="o">=</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-8" id="section-8">&#182;</a>
+</div>
+<p>if <code>post_asset_folder</code> is set, place indexes in folders</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">if</span> <span class="p">(</span><span class="nx">hexo</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">post_asset_folder</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span>
+      <span class="nx">S</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">path</span><span class="p">).</span><span class="nx">slugify</span><span class="p">().</span><span class="nx">s</span><span class="p">,</span>
+      <span class="nx">key</span><span class="p">,</span>
+      <span class="s1">&#39;index.html&#39;</span>
+    <span class="p">)</span>
+  <span class="p">}</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-9" id="section-9">&#182;</a>
+</div>
+<p>otherwise make the file name match the index name</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">return</span> <span class="nx">path</span><span class="p">.</span><span class="nx">join</span><span class="p">(</span>
+    <span class="nx">S</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">path</span><span class="p">).</span><span class="nx">slugify</span><span class="p">().</span><span class="nx">s</span><span class="p">,</span>
+    <span class="nx">key</span> <span class="o">+</span> <span class="s1">&#39;.html&#39;</span>
+  <span class="p">)</span>
+<span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-10" id="section-10">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>getList
+generates the the html page, which would list each of the pages created by
+this instance. so the list page for an 'authors' index, would list the
+authors, with links to pages listing their respective articles</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span>Array</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Index</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getList</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-11" id="section-11">&#182;</a>
+</div>
+<p>generate an array to be used as <code>posts</code> in template</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">keys</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">),</span> <span class="kd">function</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">title</span><span class="o">:</span> <span class="nx">key</span><span class="p">.</span><span class="nx">humanize</span><span class="p">().</span><span class="nx">titleCase</span><span class="p">(),</span>
+      <span class="nx">date</span><span class="o">:</span> <span class="nx">moment</span><span class="p">(),</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getPath</span><span class="p">(</span><span class="nx">key</span><span class="p">)</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-12" id="section-12">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>getPages
+return an array of page objects representing
+  - each of the keys belonging to this index
+  - one list, containing links to all of those keys</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">Returns</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name"></span>
+      <span>Array</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">Index</span><span class="p">.</span><span class="nx">prototype</span><span class="p">.</span><span class="nx">getPages</span> <span class="o">=</span> <span class="kd">function</span><span class="p">()</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-13" id="section-13">&#182;</a>
+</div>
+<p>note the filename for list is going to be index</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+  <span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">index</span> <span class="o">=</span> <span class="k">this</span><span class="p">.</span><span class="nx">getList</span><span class="p">()</span>
+  <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="k">this</span><span class="p">.</span><span class="nx">posts</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">posts</span><span class="p">,</span> <span class="nx">key</span><span class="p">)</span> <span class="p">{</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-14" id="section-14">&#182;</a>
+</div>
+<p>add handy methods for templates</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">posts</span> <span class="o">=</span> <span class="nx">_</span><span class="p">(</span><span class="nx">posts</span><span class="p">)</span>
+    <span class="k">return</span> <span class="p">{</span>
+      <span class="nx">data</span><span class="o">:</span> <span class="p">{</span>
+        <span class="nx">title</span><span class="o">:</span> <span class="s1">&#39;Index for &#39;</span> <span class="o">+</span> <span class="nx">key</span><span class="p">.</span><span class="nx">humanize</span><span class="p">().</span><span class="nx">titleCase</span><span class="p">(),</span>
+        <span class="nx">date</span><span class="o">:</span> <span class="nx">moment</span><span class="p">(),</span>
+        <span class="nx">posts</span><span class="o">:</span> <span class="nx">posts</span>
+      <span class="p">},</span>
+      <span class="nx">path</span><span class="o">:</span> <span class="k">this</span><span class="p">.</span><span class="nx">getPath</span><span class="p">(</span><span class="nx">key</span><span class="p">),</span>
+      <span class="nx">layout</span><span class="o">:</span> <span class="nx">hexo</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">indexAnything</span><span class="p">.</span><span class="nx">template</span> <span class="o">||</span> <span class="s1">&#39;index&#39;</span>
+    <span class="p">}</span>
+  <span class="p">},</span> <span class="k">this</span><span class="p">)</span>
+<span class="p">}</span>
+
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-15" id="section-15">&#182;</a>
+</div>
+<div class="dox">
+  <div class="summary"><p>register plugin</p>
+  </div>
+  <div class="body">
+  </div>
+  <div class="details">
+    <div class="dox_tag_title">function</div>
+    <div class="dox_tag_detail">
+    </div>
+    <div class="dox_tag_title">Params</div>
+    <div class="dox_tag_detail">
+      <span class="dox_tag_name">locals
+</span>
+      <span class="dox_type">Object</span>
+    </div>
+  </div>
+</div>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="kd">let</span> <span class="nx">hexo</span>
+<span class="k">if</span> <span class="p">(</span><span class="nx">hexo</span><span class="p">)</span> <span class="p">{</span>
+  <span class="nx">hexo</span><span class="p">.</span><span class="nx">extend</span><span class="p">.</span><span class="nx">generator</span><span class="p">.</span><span class="nx">register</span><span class="p">(</span><span class="s1">&#39;indexAnything&#39;</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">locals</span><span class="p">)</span> <span class="p">{</span>
+    <span class="kd">let</span> <span class="nx">indexes</span> <span class="o">=</span> <span class="p">[]</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-16" id="section-16">&#182;</a>
+</div>
+<p>created index instances according to config</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">hexo</span><span class="p">.</span><span class="nx">config</span><span class="p">.</span><span class="nx">indexAnything</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">path</span><span class="p">,</span> <span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">indexes</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="k">new</span> <span class="nx">Index</span><span class="p">(</span><span class="nx">index</span><span class="p">,</span> <span class="nx">path</span><span class="p">))</span>
+    <span class="p">})</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-17" id="section-17">&#182;</a>
+</div>
+<p>push each post to each index</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">locals</span><span class="p">.</span><span class="nx">posts</span><span class="p">.</span><span class="nx">data</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">post</span><span class="p">)</span> <span class="p">{</span>
+      <span class="nx">_</span><span class="p">.</span><span class="nx">each</span><span class="p">(</span><span class="nx">indexes</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+        <span class="nx">index</span><span class="p">.</span><span class="nx">push</span><span class="p">(</span><span class="nx">post</span><span class="p">)</span>
+      <span class="p">})</span>
+    <span class="p">})</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-18" id="section-18">&#182;</a>
+</div>
+<p>hexo generator expects an array of pages, see <code>Index.prototype.getPages</code></p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+    <span class="k">return</span> <span class="nx">_</span><span class="p">.</span><span class="nx">flatten</span><span class="p">(</span><span class="nx">_</span><span class="p">.</span><span class="nx">map</span><span class="p">(</span><span class="nx">indexes</span><span class="p">,</span> <span class="kd">function</span><span class="p">(</span><span class="nx">index</span><span class="p">)</span> <span class="p">{</span>
+      <span class="k">return</span> <span class="nx">index</span><span class="p">.</span><span class="nx">getPages</span><span class="p">()</span>
+    <span class="p">}))</span>
+  <span class="p">})</span>
+<span class="p">}</span>
+
+</pre></div>
+        </td>
+      </tr>
+      <tr>
+        <td class="docs">
+<div class="pilwrap">
+  <a class="pilcrow" href="#section-19" id="section-19">&#182;</a>
+</div>
+<p>expose Index for tests</p>
+        </td>
+        <td class="code highlight"><div class="highlight"><pre>
+<span class="nx">module</span><span class="p">.</span><span class="nx">exports</span> <span class="o">=</span> <span class="nx">Index</span>
+</pre></div>
+        </td>
+      </tr>
+  </tbody>
+</table>
+  </div>
+</body>
+</html>

@@ -4,7 +4,7 @@
   "description": "Generate custom indexes",
   "main": "index.js",
   "scripts": {
-    "test": "./node_modules/mocha/bin/mocha test/test.js -R list",
+    "test": "./node_modules/mocha/bin/mocha -R list",
     "docs": "./node_modules/docker/docker -o ./docs -x test,node_modules,notes,docs,.git",
     "readme": "node ./node_modules/.bin/node-readme"
   },
@@ -30,6 +30,8 @@
   },
   "devDependencies": {
     "docker": "^0.2.14",
+    "mocha": "^2.4.5",
+    "mocha-jshint": "^2.3.1",
     "node-readme": "^0.1.9",
     "unit.js": "^2.0.0"
   }

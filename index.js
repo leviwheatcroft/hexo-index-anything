@@ -1,47 +1,86 @@
-var _       = require('underscore')
-var util    = require('util')
-var S       = require('string').extendPrototype()
-var path    = require('path')
-var moment  = require('moment')
+'use strict'
+// require all the things
+const _       = require('lodash')
+const moment  = require('moment')
+const S       = require('string')
+const path    = require('path')
 
-var Index
 
+let Index
+
+/**
+ * Index Constructor
+ * An index is a group of posts sorted according to the value of a single front
+ * matter variable. For example, if you add an `author` variable to all your
+ * posts, then an `author` index contains all posts with that variable, grouped
+ * according to the value of the `author` variable.
+ *
+ * @class
+ * @classdesc group of posts sorted according to a single front matter variable
+ *
+ * @constructor
+ * @param {String} index
+ * @param {String} path
+ */
 Index = function(index, path) {
   this.index = index
   this.path = path
   this.posts = {}
 }
+
+/**
+ * push
+ * add a post to this index. Only posts with this index set will be added,
+ * others will be discarded
+ *
+ * @param {hexoPost} post - a post as created by hexo generator
+ */
 Index.prototype.push = function(post) {
+  // discard posts where the index is not set
   if (!_.has(post, this.index)) {
     return
-  } else if (_.isArray(post[this.index])) {
-    this.iterate(post[this.index], post)
-  } else if (_.isString(post[this.index])) {
-    this.iterate([post[this.index]], post)
   }
-}
-Index.prototype.iterate = function(keys, post) {
-  _.each(keys, function(key) {
-    key = key.slugify()
-    this.check(key)
-    this.posts[key].push(post)
+  // deal with indexes containing multiple values (like tags)
+  let values = _.flatten([post[this.index]])
+  _.each(values, function(value) {
+    value = S(value).slugify().s
+    this.posts[value] = this.posts[value] || []
+    this.posts[value].push(post)
   }, this)
 }
-Index.prototype.check = function(key) {
-  if (!_.has(this.posts, key)) {
-    this.posts[key] = []
-  }
-}
-Index.prototype.getPath = function(key) {
-  return path.join(this.path.slugify().toString(), key + '.html')
-}
+
+
 /**
- * return an array
+ * return a path with or without asset folder
  *
- * @return Object
+ * @param {String} key the name of this index
+ * @return String
  */
-Index.prototype.getIndex = function() {
-  var posts
+Index.prototype.getPath = function(key) {
+  // if `post_asset_folder` is set, place indexes in folders
+  if (hexo.config.post_asset_folder) {
+    return path.join(
+      S(this.path).slugify().s,
+      key,
+      'index.html'
+    )
+  }
+  // otherwise make the file name match the index name
+  return path.join(
+    S(this.path).slugify().s,
+    key + '.html'
+  )
+}
+
+/**
+ * getList
+ * generates the the html page, which would list each of the pages created by
+ * this instance. so the list page for an 'authors' index, would list the
+ * authors, with links to pages listing their respective articles
+ *
+ * @return Array
+ */
+Index.prototype.getList = function() {
   // generate an array to be used as `posts` in template
   return _.map(_.keys(this.posts), function(key) {
     return {
@@ -51,17 +90,18 @@ Index.prototype.getIndex = function() {
     }
   }, this)
 }
+
 /**
+ * getPages
  * return an array of page objects representing
  *   - each of the keys belonging to this index
- *   - one index, listing all of those keys
- *
- * each of the key pages contains a list of all the posts containing that key
+ *   - one list, containing links to all of those keys
  *
  * @return Array
  */
 Index.prototype.getPages = function() {
-  this.posts.index = this.getIndex()
+  // note the filename for list is going to be index
+  this.posts.index = this.getList()
   return _.map(this.posts, function(posts, key) {
     // add handy methods for templates
     posts = _(posts)
@@ -79,23 +119,28 @@ Index.prototype.getPages = function() {
 
 /**
  * register plugin
+ * @function
+ * @param {Object} locals
  */
-hexo.extend.generator.register('indexAnything', function(locals) {
-  var indexes = []
-  var pages
-  _.each(hexo.config.indexAnything, function(path, index) {
-    indexes.push(new Index(index, path))
-  })
-  _.each(locals.posts.data, function(post) {
-    _.each(indexes, function(index) {
-      index.push(post)
+let hexo
+if (hexo) {
+  hexo.extend.generator.register('indexAnything', function(locals) {
+    let indexes = []
+    // created index instances according to config
+    _.each(hexo.config.indexAnything, function(path, index) {
+      indexes.push(new Index(index, path))
     })
+    // push each post to each index
+    _.each(locals.posts.data, function(post) {
+      _.each(indexes, function(index) {
+        index.push(post)
+      })
+    })
+    // hexo generator expects an array of pages, see `Index.prototype.getPages`
+    return _.flatten(_.map(indexes, function(index) {
+      return index.getPages()
+    }))
   })
-
-  pages = _.reduce(indexes, function(memo, index) {
-    return memo.concat(index.getPages())
-  }, [])
-
-  return pages
-
-})
+}
+// expose Index for tests
+module.exports = Index

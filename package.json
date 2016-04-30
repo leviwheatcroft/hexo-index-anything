@@ -4,7 +4,9 @@
   "description": "Generate custom indexes",
   "main": "index.js",
   "scripts": {
-    "test": ""
+    "test": "./node_modules/mocha/bin/mocha test/test.js -R list",
+    "docs": "./node_modules/docker/docker -o ./docs -x test,node_modules,notes,docs,.git",
+    "readme": "node ./node_modules/.bin/node-readme"
   },
   "repository": {
     "type": "git",
@@ -12,8 +14,8 @@
   },
   "keywords": [
     "hexo",
-    "generator",
-    "recent"
+    "index",
+    "generator"
   ],
   "author": "Levi Wheatcroft <levi@wht.cr>",
   "license": "MIT",
@@ -22,8 +24,13 @@
   },
   "homepage": "https://github.com/leviwheatcroft/hexo-index-anything",
   "dependencies": {
+    "lodash": "^4.11.1",
     "moment": "^2.12.0",
-    "string": "^3.3.1",
-    "underscore": "^1.8.3"
+    "string": "^3.3.1"
+  },
+  "devDependencies": {
+    "docker": "^0.2.14",
+    "node-readme": "^0.1.9",
+    "unit.js": "^2.0.0"
   }
 }

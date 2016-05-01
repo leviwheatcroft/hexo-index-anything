@@ -1,6 +1,6 @@
 {
   "name": "hexo-index-anything",
-  "version": "0.0.3",
+  "version": "0.0.4",
   "description": "Generate custom indexes",
   "main": "index.js",
   "scripts": {

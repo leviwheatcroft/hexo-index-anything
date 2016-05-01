@@ -36,17 +36,18 @@ Index = function(index, path) {
  * @param {hexoPost} post - a post as created by hexo generator
  */
 Index.prototype.push = function(post) {
+  let index = this
   // discard posts where the index is not set
-  if (!_.has(post, this.index)) {
+  if (!_.has(post, index.index)) {
     return
   }
   // deal with indexes containing multiple values (like tags)
-  let values = _.flatten([post[this.index]])
+  let values = _.flatten([post[index.index]])
   _.each(values, function(value) {
     value = S(value).slugify().s
-    this.posts[value] = this.posts[value] || []
-    this.posts[value].push(post)
-  }, this)
+    index.posts[value] = index.posts[value] || []
+    index.posts[value].push(post)
+  })
 }
 
 
@@ -81,14 +82,15 @@ Index.prototype.getPath = function(key) {
  * @return Array
  */
 Index.prototype.getList = function() {
+  let index = this
   // generate an array to be used as `posts` in template
-  return _.map(_.keys(this.posts), function(key) {
+  return _.map(_.keys(index.posts), function(key) {
     return {
-      title: key.humanize().titleCase(),
+      title: S(key).humanize().titleCase().s,
       date: moment(),
-      path: this.getPath(key)
+      path: index.getPath(key)
     }
-  }, this)
+  })
 }
 
 /**
@@ -100,21 +102,22 @@ Index.prototype.getList = function() {
  * @return Array
  */
 Index.prototype.getPages = function() {
+  let index = this
   // note the filename for list is going to be index
-  this.posts.index = this.getList()
-  return _.map(this.posts, function(posts, key) {
+  index.posts.index = index.getList()
+  return _.map(index.posts, function(posts, key) {
     // add handy methods for templates
     posts = _(posts)
     return {
       data: {
-        title: 'Index for ' + key.humanize().titleCase(),
+        title: 'Index for ' + S(key).humanize().titleCase().s,
         date: moment(),
         posts: posts
       },
-      path: this.getPath(key),
+      path: index.getPath(key),
       layout: hexo.config.indexAnything.template || 'index'
     }
-  }, this)
+  })
 }
 
 /**
@@ -122,8 +125,8 @@ Index.prototype.getPages = function() {
  * @function
  * @param {Object} locals
  */
-let hexo
-if (hexo) {
+
+if (typeof hexo === 'object') {
   hexo.extend.generator.register('indexAnything', function(locals) {
     let indexes = []
     // created index instances according to config

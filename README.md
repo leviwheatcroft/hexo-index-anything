@@ -1,5 +1,7 @@
 # hexo-index-anything
 
+Deprecated, unpublished from npm, delete repo Jan 2018
+
 ![nodei.co](https://nodei.co/npm/hexo-index-anything.png?downloads=true&downloadRank=true&stars=true)
 
 ![npm](https://img.shields.io/npm/v/hexo-index-anything.svg)
